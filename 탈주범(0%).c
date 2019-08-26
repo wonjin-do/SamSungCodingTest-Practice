@@ -28,24 +28,41 @@ const int tunnel[8][4] = {
 bool visited[size][size] = { false, };
 int cnt = 0;
 void DFS(node curr, int t) {
-	printf("(%d, %d) ", curr.y, curr.x);
+/*
+	for (int i = 0; i < t; i++) {
+		printf(">");
+	}
+*/
+	
+	/*
+	5 6 2 1 3      
+0 0 5 3 6 0
+0 0 2 0 2 0
+3 3 1 3 7 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+	*/
 	visited[curr.y][curr.x] = true;
 	cnt++;
-	node next = curr;
 	
-	for (int i = 0; i < 4; i++) {
-		if (tunnel[map[curr.y][curr.x]][i]) {
-			printf("\n(i: %d) ", i);
-			next.y += dy[i];
-			next.x += dx[i];
-			if(map[next.y][next.x] && !visited[next.y][next.x] && t<L)
-				DFS(next, t + 1);
+
+	for (int dir = 0; dir < 4; dir++) {
+		node next = curr;
+		if (tunnel[map[curr.y][curr.x]][dir]) {
+			next.y += dy[dir];
+			next.x += dx[dir];
+			if (tunnel[map[next.y][next.x]][(dir + 2) % 4] 
+				&& !visited[next.y][next.x] 
+				&& t < L
+				&& next.y >= 0 && next.y < N && next.x >= 0 && next.x < M) {
+					DFS(next, t + 1);
+			}
 		}
 	}
 }
 
 void read() {
-	scanf("%d%d%d%d%d", &N, &M, &R, &C, &L);
+	scanf("%d %d %d %d %d", &N, &M, &R, &C, &L);
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			scanf("%d", &map[i][j]);
@@ -62,7 +79,7 @@ void init() {
 }
 
 void solve() {
-	node curr = { R,C, };
+	node curr = { R,C };
 	DFS(curr, 1);
 }
 
@@ -73,7 +90,7 @@ int main() {
 		read();
 		init();
 		solve();
-		printf("\n%d\n", cnt);
+		printf("#%d %d\n",i+1, cnt);
 	}
 
 	return 0;
