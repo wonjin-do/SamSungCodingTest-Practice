@@ -34,7 +34,7 @@ int main()
         is_update = false;
  
         bool visited[20][20] = { false, };
-        queue<shark> q;
+        queue<SHARK> q;
         visited[shark.y][shark.x] = true;
         q.push(shark);
  
@@ -43,11 +43,11 @@ int main()
         while (!q.empty()) {
             SHARK cur = q.front();  q.pop();
  
-            if (candi.time != -1 && candi.time < cur.time) {//적절한 먹이를 찾았고 && 그림자 분신인 cur 의 시간이 적절한 먹이의 위치에 있는 proper의 시간보다 클떄
-                break;//큐를 더이상 진행하지 않는다
+            if (candi.time != -1 && candi.time < cur.time) {
+                break;
             }
  
-            if (map[cur.y][cur.x] < shark_size && map[cur.y][cur.x] != 0) {// 먹이에 대한 경우
+            if (map[cur.y][cur.x] < shark_size && map[cur.y][cur.x] != 0) {
                 is_update = true;
                 if (candi.y > cur.y || (candi.y == cur.y && candi.x > cur.x)) {
                     candi = cur;
@@ -86,6 +86,3 @@ int main()
  
     return 0;
 }
-
-
-출처: https://na982.tistory.com/category/삼성 SW 역량 테스트 기출 풀이 [na982]
