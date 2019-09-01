@@ -36,7 +36,7 @@ void BFS() {
 		// 처음 curr.time = 0 , proper.time = -1  (baby.time = 0)
 		// 중간 curr.time = 4 , proper.time = -1
 		// 나중 curr.time = 5 , proper.time = 4
-		if (map[curr.y][curr.x] > 0 && map[curr.y][curr.x] < baby_size)//
+		if (map[curr.y][curr.x] > 0 && map[curr.y][curr.x] < baby_size) //현 위치에서. //먹이의 정보 
 		{
 			isFindEat = true;
 			if (curr.y < proper.y || (curr.y == proper.y && curr.x < proper.x)) {
