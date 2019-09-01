@@ -30,7 +30,8 @@ void BFS() {
 	SHARK proper;
 	proper.y = 20, proper.time = -1;
 	while (!Queue.empty()) {
-		SHARK curr = Queue.front(); Queue.pop();
+		SHARK curr = Queue.front(); //맵상에서 적절한 영역에 포함되어 있는 경우임. 에초에 push를 할 때 적절한 영역일 경우에만 push함
+		Queue.pop();
 		if (proper.time != -1 && curr.time > proper.time)//적절한 먹이가 나타났고 && 시간이 오버된경우
 			break;
 		// 처음 curr.time = 0 , proper.time = -1  (baby.time = 0)
@@ -42,17 +43,19 @@ void BFS() {
 			if (curr.y < proper.y || (curr.y == proper.y && curr.x < proper.x)) {
 				proper = curr;
 			}
+			continue;
 		}
+		
 		//이동을 위한 코드
 		for (int d = 0; d < 4; d++) {
 			SHARK next = curr;
 			next.y = curr.y + dy[d];
 			next.x = curr.x + dx[d];
 			next.time = curr.time + 1;
-			bool bound = (next.y < 0 || next.y >= N || next.x < 0 || next.x >= N);
+			bool bound = (next.y < 0 || next.y >= N || next.x < 0 || next.x >= N);//영역 체크
 			if (bound)
 				continue;
-			if (!visited[next.y][next.x] && baby_size >= map[next.y][next.x]) {
+			if (!visited[next.y][next.x] && baby_size >= map[next.y][next.x]) { //방문기록 체크 && 문제조건
 				visited[next.y][next.x] = true;
 				Queue.push(next);
 			}
