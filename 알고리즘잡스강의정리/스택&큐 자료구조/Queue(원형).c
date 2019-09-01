@@ -34,6 +34,13 @@ struct Queue {
 		else {
 			data[r++] = y;
 			r = r % capacity;
+
+			/*
+			data[r]=y;
+			r = ( r + 1 ) % capacity;
+			*/
+
+
 			len++;
 		}
 			
