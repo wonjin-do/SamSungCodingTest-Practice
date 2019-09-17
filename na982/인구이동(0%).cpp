@@ -31,30 +31,29 @@ int main() {
 	while (is_update) {
 		is_update = false;
 
-		int assign[50][50] = { 0, };
-		int neigh_idx = 0;
-		int neigh_tot[2501] = { 0, };
-		int neigh_count[2501] = { 0, };
+		int status[50][50] = { 0, };
+		int area_idx = 0;
+		int sum[2501] = { 0, };
+		int count[2501] = { 0, };
 
 		for (int y = 0;y < n;y++) {
 			for (int x = 0;x < n;x++) {
-				if (assign[y][x] == 0) {
-					neigh_idx++;
+				if (status[y][x] == 0) {
+					area_idx++;
 					
-					int check[50][50] = { 0, };//방문기록
+					int visited[50][50] = { 0, };//방문기록
 					queue<POSI> q;
-					POSI start;
-					start.y = y;
-					start.x = x;
-					check[y][x] = 1;
-					q.push(start);
+					POSI head;
+					head.y = y;
+					head.x = x;
+					visited[y][x] = 1;
+					head.num = map[y][x];
+					q.push(head);
 
-					assign[y][x] = neigh_idx;
-					neigh_tot[neigh_idx] += map[y][x];
-					neigh_count[neigh_idx] ++;
-
-					start.num = map[y][x];
-
+					status[y][x] = area_idx;
+					sum[area_idx] += map[y][x];
+					count[area_idx] ++;
+					
 					while (!q.empty()) {
 						POSI curr = q.front(); q.pop();
 
@@ -66,12 +65,12 @@ int main() {
 							if (next.y < 0 || next.y >= n || next.x < 0 || next.x >= n)
 								continue;
 							int delta = abs(curr.num - next.num);
-							if (delta >= l && delta <= r && !check[next.y][next.x]) {
-								check[next.y][next.x] = 1;
+							if (delta >= l && delta <= r && !visited[next.y][next.x]) {
+								visited[next.y][next.x] = 1;
 								
-								assign[next.y][next.x] = neigh_idx;
-								neigh_count[neigh_idx] ++;
-								neigh_tot[neigh_idx] += map[next.y][next.x];
+								status[next.y][next.x] = area_idx;
+								count[area_idx] ++;
+								sum[area_idx] += map[next.y][next.x];
 								
 								q.push(next);
 							}
@@ -86,8 +85,8 @@ int main() {
 
 		for (int y = 0;y < n;y++) {
 			for (int x = 0;x < n;x++) {
-				int idx = assign[y][x];
-				int avg = neigh_tot[idx] / neigh_count[idx];
+				int idx = status[y][x];
+				int avg = sum[idx] / count[idx];
 				if (map[y][x] != avg) {
 					map[y][x] = avg;
 					is_update = true;
@@ -101,7 +100,7 @@ int main() {
 
 	}
 
-	printf("%d\n", ret);
+	printf("%d\n",ret);
 
 	return 0;
 }
